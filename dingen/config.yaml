@@ -1,5 +1,5 @@
 name: Dingen
-version: "1.0.0-alpha.4"
+version: "1.0.0-alpha.5"
 slug: dingen
 description: Self-hosted task manager with Inbox, Today, projects, areas and reviews, and an MCP server for Claude.
 url: https://dingen.app

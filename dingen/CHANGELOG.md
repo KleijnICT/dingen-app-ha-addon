@@ -1,5 +1,61 @@
 # Changelog
 
+## 1.0.0-alpha.5
+
+A calmer task panel, spaces as groundwork for sharing, lowercase tags and
+backups with a safety net. A pre-release; `:latest` points to it. The update
+runs a database migration (with a backup first; if it fails the backup is put
+back and Dingen stops).
+
+- Backups: every night from 03:00 (in `DINGEN_TIMEZONE`) Dingen writes a
+  consistent backup to `DATA_DIR/backups`, while it runs. Kept: 7 daily, 4
+  weekly and 3 monthly, plus the 10 newest from before an update. Backup names
+  now hold the kind, the moment and the schema version. `DINGEN_BACKUPS=off`
+  turns the nightly ones off.
+- A failed update no longer leaves a half-migrated database: if a database
+  migration or a one-time data conversion fails at start, Dingen puts back the
+  backup it made just before, says so in the log and stops, so the previous
+  version can be started. Data conversions get a backup first too.
+- The `dingen` command in the Docker image: `dingen backup`, `dingen backups`
+  and `dingen restore <file>` (only with the server stopped; saves the current
+  state first and refuses files that are not a Dingen database or come from a
+  newer version).
+- Sync after a restore: devices that are ahead of the server load a fresh
+  copy instead of missing changes; unsent changes are kept. Protocol 2 pulls
+  mark such a space `resync`; protocol 1 pulls get 409 `cursor_ahead`.
+- One server per data directory: the server holds a lock on
+  `DATA_DIR/dingen.lock` and does not start when another one (or a restore)
+  holds it.
+- Task panel: a task opens in a panel that slides in from the right (beside
+  the list on wide screens, over it on medium widths, full screen on phones).
+  With a mouse a click selects a task and a double click or Enter opens it; on
+  touch screens a tap opens. With the panel open, arrow keys and clicks switch
+  the task. The address bar holds the open task (`?task=`), so a reload or a
+  jump from Search keeps it open.
+- The panel is calm: the title with a `…` menu (Duplicate, Delete), notes, the
+  checklist with a heading and count, then Planning (When; time and reminder,
+  deadline and repeat only when set) and Organisation (List with its heading,
+  Tags; Assigned only when set). Empty fields are added from a row at the
+  bottom. Everything saves as you type.
+- Duplicate a task: the copy lands right below the original, with an
+  unchecked checklist, without repeat or assignee.
+- Projects and areas show completed tasks in their own folded "Completed"
+  section at the bottom, instead of under the last heading.
+- Reviews: a weekly or monthly review that was never done counts from the day
+  the account was created, so a new account is not asked for a review right
+  away. The banners on Today can be closed until tomorrow.
+- Tags are always lowercase. Existing tags are converted once at start;
+  tags that become equal are merged and tasks point to the one that stays (the
+  Logbook shows this as done by Dingen).
+- Spaces (groundwork for sharing; nothing changes in use yet): all data
+  belongs to a space, every account has a personal space, access goes through
+  membership. The sync protocol is version 2 with a cursor per space (`GET
+  /api/sync/pull?cursor=`); the old `since=` form keeps working for older
+  clients. Entities can move between spaces with their contents. The export
+  format is version 2 with the spaces you own; version 1 files still import,
+  reviews now included. The update runs a database migration (with a backup
+  first).
+
 ## 1.0.0-alpha.4
 
 Dingen as a Home Assistant app. A pre-release; `:latest` points to it. The
