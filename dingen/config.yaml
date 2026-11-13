@@ -1,0 +1,27 @@
+name: Dingen
+version: "1.0.0-alpha.4"
+slug: dingen
+description: Self-hosted task manager with Inbox, Today, projects, areas and reviews, and an MCP server for Claude.
+url: https://dingen.app
+arch:
+  - amd64
+  - aarch64
+image: ghcr.io/kleijnict/dingen
+init: false
+startup: application
+boot: auto
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:checkbox-marked-circle-outline
+panel_title: Dingen
+ports:
+  8080/tcp: null
+ports_description:
+  8080/tcp: Direct access for the web app on your phone, the MCP server and API tokens (off by default)
+backup: cold
+options:
+  registration: closed
+  log_level: info
+schema:
+  registration: list(closed|invite|open)
+  log_level: list(debug|info|warning|error)
