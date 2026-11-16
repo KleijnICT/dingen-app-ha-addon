@@ -1,5 +1,94 @@
 # Changelog
 
+## 1.0.0-alpha.6
+
+Dayparts and estimated durations, a calmer task panel and page header, and a
+lot of everyday work: selecting several tasks, a drawer on phones, focus mode,
+tags in Settings and converting a task into a project. A pre-release;
+`:latest` points to it. The update runs a database migration with sync
+protocol 3 (with a backup first; if it fails the backup is put back and
+Dingen stops). Older apps and the previous MCP plugin keep working; reload
+the web app to get the new version.
+
+- A calmer page header on lists, projects and areas: the title with a few quiet icon buttons on its right (Filter, Focus on Today, and the `…` menu, which on Today holds My order / By project) and one muted line under it (on Today the date and the day total). Tag and duration filters live in one Filter popover; a filter that is on shows as a small chip with × under the title.
+- Links in notes (http, https and www.) are clickable and open in a new tab; click elsewhere on the text to edit. The notes of a project in a review show links too.
+- Drag the edge of the sidebar or the task panel (beside the list) to make it wider or narrower, with mouse, finger or pen; double-click or double-tap puts the default back, and the arrow keys move a focused edge in steps. The widths are kept per device, and the list always keeps room.
+- Select several tasks at once (web): Shift-click selects a range, Cmd/Ctrl-click
+  adds or removes one, Shift+Arrow extends the selection; on a touch screen a long
+  press starts selection mode, where taps add and remove tasks. The toolbar shows
+  how many are selected and When, Move and the new Tags button act on all of them;
+  Backspace/Delete (or the toolbar's Delete button) deletes them after one
+  confirmation. Escape clears the selection.
+- Settings → Calendars: removing a calendar now goes through a `…` menu with a confirmation, like deleting a project.
+- MCP tools `delete_project` and `delete_area`, only for an agent with Manage
+  on that project or area (or on Everything): they delete like the app does,
+  including headings, tasks and, for an area, its projects. Without Manage the
+  tool refuses with a clear message.
+- Focus mode in Today (web): a Focus button in the header, or the F key, shows
+  only today's tasks at full width: no calendar events, review banners,
+  sidebar or empty groups. Escape leaves it. Remembered per device.
+- Push notification when an agent assigns you a task: "Claude assigned you a
+  task" with the task title, on the devices where notifications are on.
+  Clicking it opens the task. Nothing is sent when you assign a task
+  yourself, when an agent sends the same assignee again, or when an agent
+  completes a task (that stays in the Logbook).
+- On phones the sidebar is a drawer from the left instead of the bottom
+  navigation bar: the menu button top left or a swipe from the left screen
+  edge opens it, with the same lists, areas, projects, New List and Settings
+  as on the desktop. Choosing a list, Escape or tapping beside it closes it.
+- Settings → Tags: every tag as a tree with its number of open tasks. Create a
+  tag (always lowercase), rename it inline (a name already used in the same
+  space is refused), move it under another tag or to the top level, and
+  delete it: it comes off its tasks and projects, which stay, and the tags
+  directly under it move to the top level. The settings tabs fit on one row
+  again.
+- Dayparts and estimated duration, groundwork (core and server): a task has a
+  daypart (morning, afternoon or evening) instead of This Evening and a time
+  of day, and an optional estimated duration. A reminder keeps its own exact
+  time and no longer follows the task. The update converts existing tasks
+  once, with a backup first: This Evening becomes the evening daypart, a time
+  becomes its daypart, and a task with a time but no reminder gets a
+  reminder at that time, so no notification is lost. Sync protocol 3 and
+  export format 3; older clients and export files keep working and are
+  converted.
+- Dayparts in the web app: the When picker offers Today, Tomorrow, Next week
+  (the Monday of next week), a date and Someday, and under a date a choice of
+  no daypart, morning, afternoon or evening; the separate This Evening choice
+  is gone. Today shows the tasks without a daypart first, then Morning,
+  Afternoon and Evening when they hold something, with calendar events under
+  the daypart of their start time; dragging a task into a daypart sets it.
+  The estimated time shows per daypart and for the whole day. Upcoming and the
+  task panel show the daypart.
+- Estimated duration in the web app: add a duration to a task from the Add
+  row of the task panel (5m, 15m, 30m, 1h, 2h, or type any value such as 45
+  or 1h30); the row shows it small and grey on the right. Today and Anytime
+  get a duration filter next to the tags (at most 5m, 15m, 30m or 1h), kept
+  per device; tasks without a duration drop out while it is on. The activity
+  overview names duration changes.
+- MCP tools and plugin: `create_task` and `update_task` take a `daypart`
+  (morning, afternoon, evening) and a `duration` in minutes; `list_tasks`
+  gets a `max_duration` filter and shows daypart and duration. The old
+  `evening` and `time` fields still work for this version and are converted
+  (a time becomes its daypart plus a reminder); they are marked deprecated.
+  The Dingen skill describes dayparts, reminders as the one exact time, and
+  durations.
+- The task panel stays open when its task leaves the list, for example after
+  choosing Tomorrow in Today, so more fields can be filled in; an OK button
+  at the bottom closes it.
+- Convert a task to a project, from the task panel's menu or with the MCP
+  tool `convert_task_to_project`: the project takes the task's title, notes,
+  area, tags, plan date and deadline, each checklist item becomes a task in
+  it (ticked items completed), the task is deleted and the project opens.
+- A calmer task panel: every field, including notes, checklist, When, list
+  and tags, only shows once it has a value; the others are in the Add row,
+  and adding one opens it (the When and list choices open right away). A
+  section heading only shows with a field in it. A new task now always starts
+  in the Inbox, from any list, project or area (the + button is on every list,
+  the Logbook too); choosing a When or a list in the panel moves it there.
+- Long project and area titles wrap onto more lines instead of being cut off;
+  the Logbook's filters (kind, who, period) moved into the filter button,
+  with a small chip for each filter that is on.
+
 ## 1.0.0-alpha.5
 
 A calmer task panel, spaces as groundwork for sharing, lowercase tags and
