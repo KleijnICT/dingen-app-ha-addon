@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.0-alpha.7
+
+The Inbox now holds everything that is not processed yet, and the weekly
+review walks areas and projects together. A pre-release; `:latest` points to
+it. No database migration. After the update, existing tasks without a project
+or area show in the Inbox. Reload the web app and update the MCP plugin to
+get the new version.
+
+- The Inbox holds every task that is not processed yet: a task leaves it once
+  it has a project or area and a When. A task with only a date stays in the
+  Inbox and also shows on its date in Today and Upcoming. Existing tasks
+  without a project or area now show in the Inbox.
+- A new task made on a project's or area's page goes into that project or
+  area (Anytime), after its last task; from the other lists it still goes to
+  the Inbox.
+- Weekly review: Projects and Areas are one step, "Areas and projects": per
+  area a card for the area itself, then one for each of its projects. The
+  "Loose tasks" step is gone; those tasks are in the Inbox now.
+- A project in the weekly review shows its headings and the same order as the
+  project's page, and its tasks can be dragged.
+
 ## 1.0.0-alpha.6
 
 Dayparts and estimated durations, a calmer task panel and page header, and a
