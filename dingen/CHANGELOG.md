@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.0.0-alpha.8
+
+A new, simpler review: every project and area has its own review frequency,
+and the Review page lists what is due beside the sidebar. Also: Someday items
+at the bottom of project and area pages, dragging a whole selection, and
+Anytime without what is in Today. A pre-release; `:latest` points to it. The
+update runs a small database migration (a column on `users`), with a backup
+first. The daily, weekly and monthly reviews are gone; the MCP review tools
+changed, so update the MCP plugin. Reload the web app to get the new version.
+
+- A new, simpler review. Every project and area has a review frequency
+  (every N days, weeks, months or years; every week unless you change it, in
+  the `…` menu of the project or area). Once that time has passed since its
+  last review, it shows on the Review page: a list of what is due that slides
+  out of the sidebar, in sidebar order, with the selected project or area
+  beside it, fully editable. An area shows only its own tasks; its projects
+  have their own review. "Mark reviewed" moves on to the next one. Someday
+  projects come along too.
+  The daily, weekly and monthly reviews with their steps are gone, and so are
+  the review signals and the review notice in Today. No database migration.
+- MCP: `review_queue` lists what is due for review and `mark_reviewed` marks
+  a project or area reviewed; `update_project` and the area tools take a
+  review frequency. The step tools (`start_review`, `get_review`,
+  `complete_review_step`, `complete_review`) are gone.
+- Today shows a banner when tasks came in by themselves, because the date
+  they were planned for arrived: "3 new tasks in Today", with a dot on each.
+  What you move to Today yourself does not count. OK hides it on every device.
+  Database migration: a column on `users`.
+- A new project's title asks for the desired outcome.
+- Dragging one of several selected tasks moves all of them, wherever you
+  drop them (a list, project, area, heading or a place in the list), in
+  their order; the drag shows how many. Moving a selection keeps its order.
+- Anytime no longer shows what is in Today: a task is in one of the two.
+  The project and area pages still show all their tasks.
+- On a project's and an area's page, Someday tasks (and an area's Someday
+  projects) sit together at the bottom under "Someday", before Completed.
+  The circle in front of a Someday task or project is drawn dashed.
+
 ## 1.0.0-alpha.7
 
 The Inbox now holds everything that is not processed yet, and the weekly
