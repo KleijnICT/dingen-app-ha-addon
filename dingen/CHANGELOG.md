@@ -1,5 +1,90 @@
 # Changelog
 
+## 1.0.0-alpha.9
+
+A calmer redesign with one layout for every pane, administration in the app,
+password reset and two-step verification. A pre-release; `:latest` points to
+it. The update runs two database migrations (with a backup first) and a third
+small one for push notifications. Optional: set `SMTP_*` and
+`DINGEN_PUBLIC_URL` for mail; Home Assistant users get these as app options.
+Registration is now chosen in Settings → Administration; your current
+setting carries over. Reload the web app to get the new version.
+
+- Mail: set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`,
+  `SMTP_FROM` and `SMTP_SECURE`, and `DINGEN_PUBLIC_URL` (the address people
+  open Dingen on, used for links in mail). Settings → Administration shows
+  whether mail is set up and sends a test mail.
+- Password reset: with mail and `DINGEN_PUBLIC_URL` set up the sign-in
+  screen offers "Forgot password?": a link that works once, for an hour, mailed in English or
+  Dutch, without telling whether an address has an account. An
+  administrator can also make a one-time reset link (24 hours) for a user to
+  pass on by hand. A reset signs the account out everywhere; agents' tokens
+  keep working.
+- Two-step verification with an authenticator app, optional for everyone
+  (Settings → Account), with ten recovery codes. Administration shows who
+  has it on and can turn it off for someone who lost their phone.
+- Administration in Settings, for administrators (replaces the Invitations
+  tab): the users with when they joined and were last active; make someone
+  an administrator; block an account (signed out everywhere, no sign-in, no
+  two-step step or reset link, its API and agent tokens and Home Assistant
+  access refused, no notifications) and unblock it; delete a blocked
+  account permanently with all its own data, after typing its email address
+  and with a backup first. Nobody can block, delete or unadmin themselves or
+  the last administrator. Everything under `/api/admin` is for
+  administrators in a browser session (or Home Assistant) only; agent and
+  API tokens are refused.
+- Registration in the app: who may create an account (nobody, with an
+  invitation, anyone) is chosen in Administration and stored in the
+  database; `DINGEN_REGISTRATION` is only the starting value, and an
+  existing server keeps its current setting.
+- Backups in the app: the backups are listed with date, kind and size; back
+  up now, download one, or restore one after typing "restore". A restore
+  makes its own backup first and restarts the server's database in place;
+  devices load a fresh copy.
+- Two database migrations, with a backup first: `0011_mail_reset_totp`
+  (reset links, recovery codes and two-step settings) and
+  `0012_blocked_users` (`blocked_at` on `users`).
+- A calmer, more consistent look (the first step of a redesign): one set of
+  design tokens for space, type, radius, shadow and motion, a finished dark
+  theme, quiet buttons with one primary per screen, one icon button, one
+  style for the active item, soft menu hovers and section headings without
+  capitals. The rules are in `DESIGN.md`.
+- One layout for every pane: the sidebar, the review list, the content, the
+  task panel, Settings and Search each have the same 48px head with a title
+  and icon buttons on the right, so their first lines line up. On a desktop
+  the list's actions (new task, When, Move, Tags, …) and the page's own
+  (filter, focus, `…`) move from the bottom bar into the content's head; on
+  a phone the bottom bar stays. Search sits in the sidebar's head. A project
+  in an area shows a quiet "Area ›" path in the head, and the task panel
+  shows where its task lives. In the Review the sidebar folds to a rail of
+  icons and the review list takes its place; each item says when it was last
+  reviewed and how many tasks are open.
+- The sidebar folds to a rail of icons with a button in its head, and
+  unfolds with the same button on top of the rail (or with `[`). The rail
+  shows the lists and the areas; the choice stays on this device, and
+  opening a list or area from the rail keeps it folded. In the Review the
+  sidebar still folds by itself, but the button unfolds it there too. Search
+  in the sidebar's head is a plain magnifying glass. Phones keep the drawer.
+- Menus and popovers are one kind of sheet: the same surface everywhere,
+  sections with a small heading (Planning, Organisation; When, Daypart),
+  icons in front of menu items, the delete action last under a line. On a
+  phone they come up from the bottom with a grab handle, and close with a
+  tap beside them or a swipe down. Empty lists and pages all show a short
+  title with one sentence, and the Logbook no longer shows "Loading…" as if
+  it were empty.
+- Push notifications arrive in the language of the device: when you turn on
+  reminders, the device sends its app language along, and again when you
+  change the language. Reminders and "an agent assigned you a task" then come
+  in that language (English for devices that did not tell yet; open Settings
+  once to update them). The update runs a small database migration (a
+  `language` column on `push_subscriptions`), with a backup first.
+- The server keeps the change log for a year: older changes are removed
+  daily, after the nightly backup (and at startup when overdue), in small
+  batches. Your tasks, projects and exports are not affected; the activity
+  log (Logbook) no longer goes back more than a year. A device that was
+  offline for longer than that loads its data afresh instead of syncing the
+  missing changes.
+
 ## 1.0.0-alpha.8
 
 A new, simpler review: every project and area has its own review frequency,
