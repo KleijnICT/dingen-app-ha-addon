@@ -65,6 +65,13 @@ Everything is stored in the app's own data folder and is part of Home
 Assistant backups. Home Assistant stops Dingen for a moment while it makes a
 backup, so the database is copied in a consistent state.
 
+Dingen also makes its own backups in `backups/` in that folder: every night
+from 03:00, and before every update that changes the database. An
+administrator sees them in **Settings → Administration → Backups**, and can
+make one now, download one, or restore one (after typing `restore`); a
+restore works without leaving Home Assistant and makes a backup of the
+current state first.
+
 To move from another Dingen server: **Settings → Data → Export** there, and
 **Import** here.
 
@@ -72,4 +79,5 @@ To move from another Dingen server: **Settings → Data → Export** there, and
 
 Every Dingen release appears as an update in Home Assistant, with its
 changelog. Before an update that changes the database, Dingen first writes a
-copy to `backups/` in its data folder.
+copy to `backups/` in its data folder; if a migration fails, it puts that copy
+back and stops with a message in the log.
